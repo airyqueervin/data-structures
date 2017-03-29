@@ -19,8 +19,8 @@ queueMethods.enqueue = function(value) {
 queueMethods.dequeue = function() {
   if (this.length > 0) {
     this.length--;
-    var temp = this.storage[(this.spot-this.length)-1];
-    delete this.storage[(this.spot-this.length)-1];
+    var temp = this.storage[(this.spot-this.length) - 1];
+    delete this.storage[(this.spot-this.length) - 1];
     return temp;
   }
 };
