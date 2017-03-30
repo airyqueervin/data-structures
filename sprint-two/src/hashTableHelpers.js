@@ -21,12 +21,20 @@ var LimitedArray = function(limit) {
   };
   limitedArray.set = function(index, value) {
     checkLimit(index);
+    //console.log('INDEX: ', index);
     storage[index] = value;
   };
   limitedArray.each = function(callback) {
     for (var i = 0; i < storage.length; i++) {
       callback(storage[i], i, storage);
     }
+  };
+  limitedArray.removeItem = function(index) {
+    storage.splice(index, 1);
+  };
+
+  limitedArray.length = function() {
+    return storage.length;
   };
 
   var checkLimit = function(index) {
