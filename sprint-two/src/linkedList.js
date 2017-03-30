@@ -17,12 +17,28 @@ var LinkedList = function() {
   };
 
   list.removeHead = function() {
+    var currentHead = this.head;
     var newHead = this.head.next;
     this.head = newHead;
+    return currentHead.value;
   };
 
-  list.contains = function(target) {
+  list.contains = function(target, currentNode) {
+
+    currentNode = currentNode || this.head;
+    console.log('currentNode', currentNode, 'this.head', this.head, 'target', target);
+
+    if (currentNode.value === target) {
+      return true;
+    } 
+
+    if (currentNode.next !== null) {
+      return this.contains(target, currentNode.next);
+    }
+
+    return false;
   };
+
 
   return list;
 };
