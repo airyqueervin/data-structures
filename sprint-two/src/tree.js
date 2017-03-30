@@ -15,28 +15,25 @@ treeMethods.addChild = function(value) {
   this.children.push(childTree);
 };
 
-treeMethods.contains = function(target, tree, counter) {
-  var children = this.children;
-  var found = false;
-  counter = counter || 0;
-  console.log('children', children, 'this.value', this.value, 'target', target);
-  if (this.value === target) {
+treeMethods.contains = function(target) {
+  if (this.value !== undefined && this.value === target) {
     return true;
   }
 
-  if (children.length) {
-
-    while (children.length > 0 && !found) {
-      counter++; 
-      console.log(children);
-      found = children[counter].contains(target, children[counter], counter);
+  if (this.children.length) {
+    for (var i = 0; i < this.children.length; i++) {
+      if (this.contains.call(this.children[i], target)) {
+        return true;   
+      }
     }
   }
-  return found;
+  return false;
 };
 
 
 
 /*
- * Complexity: What is the time complexity of the above functions?
+ * Complexity: What is the time complexity of the above functions
+    addChild -> O(1) constant time
+    contains -> O(n)
  */
