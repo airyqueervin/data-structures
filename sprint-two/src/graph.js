@@ -66,10 +66,20 @@ Graph.prototype.removeEdge = function(fromNode, toNode) {
 
 // Pass in a callback which will be executed on each node of the graph.
 Graph.prototype.forEachNode = function(cb) {
+  for (var key in this.graphnodes) {
+    cb(this.graphnodes[key].value);
+  }
 };
 
 /*
  * Complexity: What is the time complexity of the above functions?
+   addNode O(1) constatnt time
+   contains O(n) linear time
+   removeNode O(n) linear time
+   hasEdge O(n) linear time
+   addEdge O(n) linear time
+   removeEdge O(n) linear 
+   forEachNode O(n) linear
  */
 
 
