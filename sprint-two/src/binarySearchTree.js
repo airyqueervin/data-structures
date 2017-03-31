@@ -33,14 +33,14 @@ BinarySearchTree.prototype.contains = function(value) {
 };
 
 BinarySearchTree.prototype.depthFirstLog = function(cb) {
-   cb(this.value);
-   if (this.left !== null) {
+  cb(this.value);
+  if (this.left !== null) {
     this.depthFirstLog.call(this.left, cb);
-   }
+  }
   if (this.right !== null) {
-     this.depthFirstLog.call(this.right, cb);
-   }
- };
+    this.depthFirstLog.call(this.right, cb);
+  }
+};
 
 
 BinarySearchTree.prototype.traverse = function(tree, value) {
@@ -49,12 +49,12 @@ BinarySearchTree.prototype.traverse = function(tree, value) {
       return tree;
     }
 
-    if (value > tree.value) { //GREATER THAN CHECK
+    if (value > tree.value) { 
       if (tree.right !== null) {
         return tree.traverse(tree.right, value);
       } 
       
-    } else { ///LESS THAN CHECK
+    } else {
 
       if (tree.left !== null) {
         return tree.traverse(tree.left, value);
