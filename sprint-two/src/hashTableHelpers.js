@@ -29,18 +29,46 @@ var LimitedArray = function(limit) {
       callback(storage[i], i, storage);
     }
   };
-  limitedArray.removeItem = function(index) {
-    storage.splice(index, 1);
+  limitedArray.removeItem = function(key, index) {
+    console.log('................remove Item', key, index);
+    delete storage[index][key];
+    console.log('Deleted storage size:', storage);
   };
 
-  limitedArray.length = function() {
-    return storage.length;
+  limitedArray.storageSize = function() {
+   // console.log('STORAGE', Object.keys(storage).length);
+    var counter = 0;
+    storage.forEach(function(item) {
+      _.each(item, function(index) {
+       // console.log('ITEMS here: ', index);
+      });
+      /*for (var key in item) {
+        console.log('ITEMS here: ', key, item[key]);
+      }*/
+      counter += Object.keys(item).length;
+      // counter++;
+      //console.log('counter increase: ', counter)
+    });
+    //console.log('Inside STORAGE Counter: ', counter);
+    return Object.keys(storage).length;
+  };
+
+  limitedArray.print = function() {
+    console.log('STORAGE ARAY', storage);
+  };
+
+  limitedArray.setNewLimit = function(newLimit) {
+    console.log('SETTING old limit', limit);
+    limit = newLimit;
+    console.log('SETTING new limit', limit);
   };
 
   var checkLimit = function(index) {
+    //console.log('INSIde cHeck LImit: ', limit, 'index', index);
     if (typeof index !== 'number') {
       throw new Error('setter requires a numeric index for its first argument');
     }
+     
     if (limit <= index) {
       throw new Error('Error trying to access an over-the-limit index');
     }
