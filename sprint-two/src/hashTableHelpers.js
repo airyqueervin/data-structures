@@ -37,7 +37,6 @@ var LimitedArray = function(limit) {
 
   limitedArray.setNewLimit = function(newLimit) {
     this.limit = newLimit;
-    console.log('setting new limit on storage');
   };
 
   var checkLimit = function(index) {

@@ -7,7 +7,6 @@ var HashTable = function() {
 };
 
 HashTable.prototype.insert = function(k, v) {
-  console.log('INSERTING ', k, v, 'ARRAY SIZE', this._storage.getStorage().length);
   if ( (this._tupleCount / this._limit) >= .75 ) {
     this._limit *= 2;
     this._storage.setNewLimit(this._limit);
@@ -46,15 +45,10 @@ HashTable.prototype.retrieve = function(k) {
 
 
 HashTable.prototype.remove = function(k) {
-  if (this._tupleCount <= 4) {
-    debugger;
-  }
-  console.log('REMOVE', k, 'TUPLE COUNT', this._tupleCount, ' ARRAY SIZE', this._storage.getStorage().length, this._limit);
   if (((this._tupleCount / this._limit) <= .25) ) {
     this._limit /= 2;
     this._storage.setNewLimit(this._limit);
     this.rehash(this._limit);
-    console.log('DECREASING SIZE', this._tupleCount, this._limit);
 
   }
   var index = getIndexBelowMaxForKey(k, this._limit);
@@ -66,9 +60,6 @@ HashTable.prototype.remove = function(k) {
 
 };
 
-HashTable.prototype.printStore = function() {
-  this._storage.print();
-};
 
 HashTable.prototype.rehash = function(newLimit) {
   var oldTable = this._storage;
@@ -79,7 +70,6 @@ HashTable.prototype.rehash = function(newLimit) {
 
   oldTable.getStorage().forEach( (bucketArray, index) => {
     bucketArray.forEach( (tuple, index) => {
-      console.log('this._storage', this._storage.getStorage());
       this.insert(tuple[0], tuple[1]);
     });
   });
@@ -103,7 +93,12 @@ HashTable.prototype.getTupleLocation = function(bucket, key) {
 
 /*
  * Complexity: What is the time complexity of the above functions?
-  
+  insert = O(1) if no rehashing is involed. But if rehash is used, then it's O(n).
+  retrieve = O(1)
+  remove = = O(n)
+  rehash = O(n) 
+  getTupleLocation = O(n)
+
  */
 
 
