@@ -9,7 +9,7 @@ describe('hashTable', function() {
     hashTable = new HashTable();
   });
 
-/*  it('should have methods named "insert", "remove", and "retrieve', function() {
+  it('should have methods named "insert", "remove", and "retrieve', function() {
     expect(hashTable.insert).to.be.a('function');
     expect(hashTable.remove).to.be.a('function');
     expect(hashTable.retrieve).to.be.a('function');
@@ -48,10 +48,10 @@ describe('hashTable', function() {
     expect(hashTable.retrieve(v1)).to.equal(v1);
     expect(hashTable.retrieve(v2)).to.equal(v2);
     window.getIndexBelowMaxForKey = oldHashFunction;
-  });*/
+  });
 
   // (Advanced! Remove the extra "x" when you want the following tests to run)
-/*  it ('should double in size when needed', function() {
+  it ('should double in size when needed', function() {
     _.each(people, function(person) {
       var firstName = person[0];
       var lastName = person[1];
@@ -59,27 +59,21 @@ describe('hashTable', function() {
       expect(hashTable.retrieve(firstName)).to.equal(lastName);
     });
     expect(hashTable._limit).to.equal(16);
-  });*/
+  });
 
   it ('should halve in size when needed', function() {
-      // people2.forEach(function(person) {
-      //  var firstName = person[0];
-      //  var lastName = person[1];
-      //  hashTable.insert(firstName, lastName);
-      // });
-
     _.each(people, function(person) {
       var firstName = person[0];
       var lastName = person[1];
       hashTable.insert(firstName, lastName);
       expect(hashTable.retrieve(firstName)).to.equal(lastName);
     });
-    // expect(hashTable._limit).to.equal(16);
-    // hashTable.remove('George');
-    // hashTable.remove('Dr.');
-    // hashTable.remove('Steven');
-    // hashTable.remove('John');
-    // hashTable.remove('Mr.');
-    // expect(hashTable._limit).to.equal(8);
+    expect(hashTable._limit).to.equal(16);
+    hashTable.remove('George');
+    hashTable.remove('Dr.');
+    hashTable.remove('Steven');
+    hashTable.remove('John');
+    hashTable.remove('Mr.');
+    expect(hashTable._limit).to.equal(8);
   });
 });

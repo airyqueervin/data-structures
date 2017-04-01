@@ -41,7 +41,6 @@ var LimitedArray = function(limit) {
   };
 
   var checkLimit = function(index) {
-    ////console.log('INSIde cHeck LImit: ', limit, 'index', index);
     if (typeof index !== 'number') {
       throw new Error('setter requires a numeric index for its first argument');
     }
@@ -69,4 +68,10 @@ var getIndexBelowMaxForKey = function(str, max) {
 
 /*
  * Complexity: What is the time complexity of the above functions?
+  get = O(1)
+  set = O(1)
+  each = O(n)
+  getStorage = O(1)
+  setNewLimit = O(1)
+  checklimt = O(1)
  */

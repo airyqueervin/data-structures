@@ -7,15 +7,12 @@ var HashTable = function() {
 };
 
 HashTable.prototype.insert = function(k, v) {
-  console.log('INSERTING ', k, v);
+  console.log('INSERTING ', k, v, 'ARRAY SIZE', this._storage.getStorage().length);
   if ( (this._tupleCount / this._limit) >= .75 ) {
     this._limit *= 2;
     this._storage.setNewLimit(this._limit);
-    debugger;
     this.rehash(this._limit);
-    console.log('SET STORAGE',  this._storage.setNewLimit(this._limit));
   }
-  // this.resize();
 
   var index = getIndexBelowMaxForKey(k, this._limit);
   var tuple = [k, v];
@@ -49,8 +46,17 @@ HashTable.prototype.retrieve = function(k) {
 
 
 HashTable.prototype.remove = function(k) {
-  console.log('REMOVE', k);
-  // this.resize();
+  if (this._tupleCount <= 4) {
+    debugger;
+  }
+  console.log('REMOVE', k, 'TUPLE COUNT', this._tupleCount, ' ARRAY SIZE', this._storage.getStorage().length, this._limit);
+  if (((this._tupleCount / this._limit) <= .25) ) {
+    this._limit /= 2;
+    this._storage.setNewLimit(this._limit);
+    this.rehash(this._limit);
+    console.log('DECREASING SIZE', this._tupleCount, this._limit);
+
+  }
   var index = getIndexBelowMaxForKey(k, this._limit);
   var bucket = this._storage.get(index);
   var tupleIndex = this.getTupleLocation(bucket, k);
@@ -60,55 +66,23 @@ HashTable.prototype.remove = function(k) {
 
 };
 
-HashTable.prototype.resize = function() {
-  console.log('BEGINNING SIZE', this._tupleCount, this._limit);
-  if (this._tupleCount >= 6) {
-    debugger;
-  }
-  // debugger;
-  if ( (this._tupleCount / this._limit) >= .75 ) {
-    this._limit *= 2;
-    this._storage.setNewLimit(this._limit);
-    this.rehash(this._limit);
-    console.log('SET STORAGE',  this._storage.setNewLimit(this._limit));
-  }
-
-  if (((this._tupleCount / this._limit) < .25) && (this._tupleCount > 8)) {
-    this._limit /= 2;
-    this._storage.setNewLimit(this._limit);
-    //this.rehash(this._limit);
-    console.log('DECREASING SIZE', this._tupleCount, this._limit);
-
-  }
-
-};
-
 HashTable.prototype.printStore = function() {
   this._storage.print();
 };
 
 HashTable.prototype.rehash = function(newLimit) {
-  // we need to get save a reference to the old storage
- 
-  
   var oldTable = this._storage;
+  var newTable = LimitedArray(newLimit);
 
-  // create a new LimitedArray with the new limit passed in.
-  var newTable =  LimitedArray(newLimit);
-
-    // assign the new Lmited array to the existing storage property.
   this._storage = newTable;
+  this._tupleCount = 0;
 
-      // iterate over the old reference keys values and pass them into the new limited array 
   oldTable.getStorage().forEach( (bucketArray, index) => {
-   // console.log('bucket array index', index);
     bucketArray.forEach( (tuple, index) => {
-     // console.log('tuple', tuple, 'at index', index);
+      console.log('this._storage', this._storage.getStorage());
       this.insert(tuple[0], tuple[1]);
     });
   });
-
-      // apply the insert method to the keys and values to the new instance table.
 };
 
 HashTable.prototype.getTupleLocation = function(bucket, key) {
@@ -129,6 +103,7 @@ HashTable.prototype.getTupleLocation = function(bucket, key) {
 
 /*
  * Complexity: What is the time complexity of the above functions?
+  
  */
 
 
