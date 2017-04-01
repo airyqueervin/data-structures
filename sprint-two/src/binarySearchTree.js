@@ -1,3 +1,4 @@
+
 var BinarySearchTree = function(value) {
   this.value = value;
   this.left = null;
@@ -19,6 +20,13 @@ BinarySearchTree.prototype.insert = function(value) {
     } else {
       foundNode.left = new BinarySearchTree(value);
     }
+    values.push(value);
+    this.calculateLayers();
+
+    if (this.needsRebalancing()) {
+      this.rebalance();
+    }
+
   }
   
 };
@@ -79,6 +87,68 @@ BinarySearchTree.prototype.traverse = function(tree, value) {
     return tree;
   }
 };
+
+
+var layers = [0];
+var values = [];
+
+
+BinarySearchTree.prototype.rebalance = function() {
+  var valuesCopy = values.slice();
+  var midpoint = valuesCopy.splice(Math.floor(valuesCopy.length / 2), 1);
+  var tempTree = new BinarySearchTree(midpoint[0]);
+
+  var generateTree = function(array, tree) {
+    if (array.length <= 2) {
+      for (var i = 0; i < array.length; i++) {
+        tempTree.insert(array[i]);
+      }
+    } else {
+      var midpoint = array.splice(Math.floor(array.length / 2), 1);
+      tree.insert(mipoint);
+      return generateTree(array, tree);
+    }
+    // if the array is smaller than 2 
+    // iterate and call insert 
+
+
+    // splice out a midpoint 
+    // call insert on temptree and pass the midpoint
+    // recurse with remainder
+  };
+    
+};
+
+BinarySearchTree.prototype.calculateLayers = function() {
+  var lastElement = layers[layers.length - 1];
+  if (values.length > lastElement) {
+    layers.push( (lastElement * 2) + 1);
+  } 
+};
+
+BinarySearchTree.prototype.needsRebalancing = function() {
+  var max = values.length;
+  var min = layers.length - 1;
+  if (max >= (2 * min)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+  
+  // an array of layers starting with the value of 0
+    // we want add of the tree nodes.
+      // if values.lenght is greater lastElement
+      //  layers.lenght-1 = mini amount of layers
+
+      // After we retrieve the minimum,   
+  // r
+
+  // takes in node count
+   // calculate a minimun number of levels
+    // calculate a max number of levels
+  
+    // 
 
 /*
  * Complexity: What is the time complexity of the above functions?
