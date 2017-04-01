@@ -42,6 +42,22 @@ BinarySearchTree.prototype.depthFirstLog = function(cb) {
   }
 };
 
+BinarySearchTree.prototype.breadthFirstLog = function(cb) {   
+  var arr = [];
+  var currentNode = this;
+  arr.push(this);
+  while (arr.length) {
+    currentNode = arr.shift();
+    cb(currentNode.value);
+    if (currentNode.left !== null) {
+      arr.push(currentNode.left);
+    }
+    if (currentNode.right !== null) {
+      arr.push(currentNode.right);
+    }      
+  }
+};
+
 
 BinarySearchTree.prototype.traverse = function(tree, value) {
   if (tree !== null) {
