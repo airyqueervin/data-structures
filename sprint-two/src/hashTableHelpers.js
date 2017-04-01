@@ -31,6 +31,9 @@ var LimitedArray = function(limit) {
     }
   };
 
+  limitedArray.getStorage = function() {
+    return storage;
+  };
 
   limitedArray.setNewLimit = function(newLimit) {
     this.limit = newLimit;
