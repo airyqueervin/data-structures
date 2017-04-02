@@ -22,14 +22,13 @@ BinarySearchTree.prototype.insert = function(value, passedTree) {
       foundNode.left = new BinarySearchTree(value);
     }
     values.push(value);
+    tree.calculateLayers();
 
-    // tree.calculateLayers();
-
-    /*if ( (passedTree === undefined) && tree.needsRebalancing()) {
+    if ( (passedTree === undefined) && tree.needsRebalancing()) {
 
       var temp = tree.rebalance();
       console.log(temp);
-    }*/
+    }
 
   }
   
@@ -97,36 +96,34 @@ BinarySearchTree.prototype.traverse = function(tree, value) {
 var layers = [0];
 var values = [];
 
-BinarySearchTree.prototype.reinsert = function(value) {
-  //
-}
 
-BinarySearchTree.prototype.rebalance = function(array) {
-  if (array.length === 1) {
-    return new BinarySearchTree(array[0]);
-  } else if (array.length === 2) {
-    var node = new BinarySearchTree(array[1]);
-    node.left = new BinarySearchTree(array[0]);
-    return node;
-  } 
+BinarySearchTree.prototype.rebalance = function() {
+  console.log('Needs to REBALANCE');
+  var valuesCopy = values.slice();
+  valuesCopy.sort((a, b) => a - b);
+  var masterTree = {};
 
-  var midpoint = array.splice(Math.floor(array.length / 2), 1)[0];
-  var left = array.splice(0, Math.ceil(array.length / 2));
-  var right = array;
-  var node = new BinarySearchTree(midpoint);
-  debugger;
-  node.left = node.rebalance(left);
-  node.right = node.rebalance(right);
-
-  
-  return node;
-  // there are three parts
-
-  // the value is the midpoint
-  // the left is the result of a recursive call of the left half
-  // the right is the result of a recursive call of the right half
+  var generateTree = function(array, tree) {
+    if (array.length <= 2) {
+      for (var i = 0; i < array.length; i++) {
+        tree.insert(array[i], tree);
+      }
+    } else {
+      var midpoint = array.splice(Math.floor(array.length / 2), 1);
+      var left = array.splice(0, Math.floor(valuesCopy.length) / 2);
+      var right = array; 
+      
+      tree = new BinarySearchTree(midpoint[0]);
+      tree.insert(midpoint[0], tree);
+      generateTree(left, tree);
+      generateTree(right, tree);
+    }
+    debugger;
+  };
+  generateTree(valuesCopy, masterTree);
+  // debugger;
+  return masterTree;
 };
-
 
 BinarySearchTree.prototype.calculateLayers = function() {
 
@@ -138,9 +135,9 @@ BinarySearchTree.prototype.calculateLayers = function() {
 };
 
 BinarySearchTree.prototype.needsRebalancing = function() {
+  console.log('Inside Rebalancing with VALUES', values);
   var max = values.length;
   var min = layers.length - 1;
-  return true;
   if (max > (2 * min)) {
     return true;
   } else {
